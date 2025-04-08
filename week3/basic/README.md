@@ -126,4 +126,3 @@ augmented_train = concatenate_datasets([all_train_ds, extra_business]).shuffle(s
 
 ![image](https://github.com/user-attachments/assets/8c4918ad-e949-4986-927f-ec0977731e01)
 - 실제 label값에 따라 어떤 pred가 선택되었는지 찍어봐도 둘을 헷갈려하는 것을 볼 수 있었습니다.
-니다.
