@@ -58,6 +58,12 @@
 - DistilBERT의 encoder 파라미터는 동결 (freeze)하여 학습에서 제외함
 
 ## 📈 학습 및 평가
+Accuracy over epoch
+![image](https://github.com/user-attachments/assets/0b64e412-0491-4e04-a80a-735c49d7afda)
+
+Loss over epoch
+![image](https://github.com/user-attachments/assets/d75316da-6303-42f8-9ae8-484e1219f869)
+
 - Optimizer: Adam
 - Learning rate: 0.001
 - Batch size: 64
