@@ -114,8 +114,8 @@ augmented_train = concatenate_datasets([all_train_ds, extra_business]).shuffle(s
 
 |Class|	Before|	After|	변화량 (Δ)|
 |--|--|--|--|
-|Business|	|0.7571|	0.8571	|+0.1000 ✅|
-|Sci/Tech|	|0.8600|	0.7800|	−0.0800 ❌|
+|Business|	0.7571|	0.8571	|+0.1000 ✅|
+|Sci/Tech|	0.8600|	0.7800|	−0.0800 ❌|
 |Sports|	0.9381	|0.9381|	+0.0000 🟰|
 |World	|0.8247	|0.8351|	+0.0103 ⬆️|
 
