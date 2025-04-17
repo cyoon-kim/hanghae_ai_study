@@ -1,0 +1,420 @@
+init_prompt:
+  description: 아무 prompt 없이 기문 문제 문항만 제시하는 버전입니다.
+  main: |
+    정답은 숫자로만 제시하세요.
+
+    [지문]
+    {paragraph}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [정답]
+  plus: |
+    정답은 숫자로만 제시하세요.
+
+    [지문]
+    {paragraph}
+
+    [보기]
+    {question_plus}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [정답]
+  score:
+    gpt-4o: 91
+    gpt-4o-mini: 58
+    gpt-4.1-mini: 83
+    gpt-4.1-nano: 44
+    gpt-3.5-turbo: 39
+base_prompt:
+  description: 기본 프롬프트 버전입니다.
+  main: |
+    너는 대한민국의 수학능력시험을 보는 고등학교 3학년 학생이야.
+    국어 문제를 풀고 100점을 맞아야 해.
+
+    너에게 지문(paragraph)와 질문(question)이 주어질거야.
+    다음 지침을 꼭 따라줘
+
+    1. 지문을 분석해서 의도를 파악해
+    2. 정답을 도출할 수 있는 근거를 지문에서 찾아 설명해
+    3. 최종적으로 가장 적절한 정답을 하나 제시해
+    4. 정답은 숫자 하나로만 대답해
+
+    [지문]
+    {paragraph}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [정답]
+  plus: |
+    너는 대한민국의 수학능력시험을 보는 고등학교 3학년 학생이야.
+    국어 문제를 풀고 100점을 맞아야 해.
+
+    너에게 지문(paragraph)와 질문(question)이 주어질거야.
+    다음 지침을 꼭 따라줘
+
+    1. 지문을 분석해서 의도를 파악해
+    2. 정답을 도출할 수 있는 근거를 지문에서 찾아 설명해
+    3. 최종적으로 가장 적절한 정답을 하나 제시해
+    4. 정답은 숫자 하나로만 대답해
+
+    [지문]
+    {paragraph}
+
+    [보기]
+    {question_plus}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [정답]
+  score:
+    gpt-4o-mini: 60
+CoT_prompt:
+  description: Chain-of-Thought 기반 추론을 유도하는 국어 문제 프롬프트입니다.
+  main: |
+    아래는 수능 국어 문제입니다.
+    지문과 질문을 읽고, 스스로 생각한 과정을 적은 뒤 최종 정답을 숫자 하나로 제시하세요.
+
+    [지문]
+    {paragraph}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [생각의 흐름]
+  plus: |
+    아래는 수능 국어 문제입니다.
+    지문과 질문을 읽고, 스스로 생각한 과정을 적은 뒤 최종 정답을 숫자 하나로 제시하세요.
+
+    [지문]
+    {paragraph}
+
+    [보기]
+    {question_plus}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [생각의 흐름]
+  score:
+    gpt-4o-mini: 56
+CoT_prompt_v2:
+  description: Chain-of-Thought 기반 추론을 유도하는 국어 문제 프롬프트입니다.
+  main: |
+    아래는 수능 국어 문제입니다.
+    지문과 질문을 읽고, 스스로 생각한 과정을 적은 뒤 최종 정답을 숫자 하나로 제시하세요.
+
+    반드시 다음 지침을 따르세요:
+    1. 각 선택지를 지문의 내용과 정확히 비교하고, 문장 표현이 지문과 완전히 일치하는지 확인하세요.
+    2. 보기 문장의 의미가 지문의 취지와 다르거나 과도하게 일반화된 경우에도 일치하지 않는 것으로 판단하세요.
+    3. 지문에서 직접적으로 언급되지 않은 정보는 추측하지 마세요.
+    4. 모든 선택지를 분석한 뒤, 정답을 숫자 하나로 명확하게 제시하세요.
+
+    [지문]
+    {paragraph}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [생각의 흐름]
+  plus: |-
+    아래는 수능 국어 문제입니다.
+    지문과 질문을 읽고, 스스로 생각한 과정을 적은 뒤 최종 정답을 숫자 하나로 제시하세요.
+
+    반드시 다음 지침을 따르세요:
+    1. 각 선택지를 지문의 내용과 정확히 비교하고, 문장 표현이 지문과 완전히 일치하는지 확인하세요.
+    2. 보기 문장의 의미가 지문의 취지와 다르거나 과도하게 일반화된 경우에도 일치하지 않는 것으로 판단하세요.
+    3. 지문에서 직접적으로 언급되지 않은 정보는 추측하지 마세요.
+    4. 모든 선택지를 분석한 뒤, 정답을 숫자 하나로 명확하게 제시하세요.
+
+    [지문]
+    {paragraph}
+
+    [보기]
+    {question_plus}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [생각의 흐름]
+  score:
+    gpt-4o-mini: 68
+translate_prompt:
+  description: 번역하여 생각하길 유도하는 프롬프트입니다.
+  main: "다음은 대한민국 수능 국어 문제입니다.  \n전체 문항(지문, 질문, 선지)을 영어로 번역한 뒤, 영어로 **논리적인 추론 과정을\
+    \ 서술**하고, 최종적으로 정답을 숫자 하나로만 제시하세요.\n\n<지침>  \n1. 전체 문항(지문, 질문, 선지)을 영어로 정확히 번역하세요.\
+    \  \n2. 번역한 영어 지문과 선택지를 바탕으로 문제를 해결하세요.  \n3. 선택지가 지문과 일부분만 일치하거나, 지문의 의미를 과도하게\
+    \ 일반화하거나 축소했다면 '일치하지 않는 것'으로 판단하세요.  \n4. **각 선택지에 대해 근거를 바탕으로 판단한 논리적 추론 과정을\
+    \ 간단히 서술하세요.**  \n5. 모든 선택지를 비교한 후, 반드시 마지막 줄에 **정답을 1~5 중 숫자 하나로만** 적으세요.  \n\
+    6. 반드시 정답을 하나 고르세요. **답이 명확하지 않더라도 가장 적절한 하나의 선택지를 고르세요.**\n\n[Passage in Korean]\
+    \  \n{paragraph}\n\n[Question in Korean]  \n{question}\n\n[Choices in Korean]\
+    \  \n{choices}\n\n[Answer]\n"
+  plus: "다음은 대한민국 수능 국어 문제입니다.  \n전체 문항(지문, 질문, 보기, 선지)을 영어로 번역한 뒤, 영어로 **논리적인 추론\
+    \ 과정을 서술**하고, 최종적으로 정답을 숫자 하나로만 제시하세요.\n\n<지침>  \n1. 전체 문항(지문, 질문, 보기(Supplementary\
+    \ Material), 선지)을 영어로 정확히 번역하세요.  \n2. 번역한 영어 지문과 선택지를 바탕으로 문제를 해결하세요.  \n3. 선택지가\
+    \ 지문과 일부분만 일치하거나, 지문의 의미를 과도하게 일반화하거나 축소했다면 '일치하지 않는 것'으로 판단하세요.  \n4. **각 선택지에\
+    \ 대해 근거를 바탕으로 판단한 논리적 추론 과정을 간단히 서술하세요.**  \n5. 모든 선택지를 비교한 후, 반드시 마지막 줄에 **정답을\
+    \ 1~5 중 숫자 하나로만** 적으세요.  \n6. 반드시 정답을 하나 고르세요. **답이 명확하지 않더라도 가장 적절한 하나의 선택지를\
+    \ 고르세요.**\n\n[Passage in Korean]  \n{paragraph}\n\n[Supplementary Material in\
+    \ Korean]\n{question_plus}\n\n[Question in Korean]  \n{question}\n\n[Choices in\
+    \ Korean]  \n{choices}\n\n[Answer]\n"
+  score:
+    gpt-4o-mini: 70
+translate_prompt_v2:
+  description: 번역하여 생각하길 유도하는 프롬프트 v2입니다.
+  main: "This is a Korean CSAT (College Scholastic Ability Test) language question.\
+    \  \nPlease translate the entire content (passage, question, choices) into English,\
+    \ then **write a logical reasoning process in English** and finally present your\
+    \ answer as a single number only.\n\n<Instructions>  \n1. Translate the entire\
+    \ content (passage, question, choices) into accurate English.  \n2. Solve the\
+    \ question based on the translated passage and choices in English.  \n3. If a\
+    \ choice only partially matches the passage or overgeneralizes/understates the\
+    \ meaning of the passage, consider it as **not matching**.  \n4. **Write a brief\
+    \ logical reasoning for each choice, based on the passage.**  \n5. After comparing\
+    \ all choices, clearly present your final answer as a **single number from 1 to\
+    \ 5 only**.  \n6. You must choose one answer. **Even if the answer is unclear,\
+    \ pick the most appropriate one.**  \n7. At the very end, write the answer in\
+    \ the format: **Answer: [number]**\n\n[Passage in Korean]  \n{paragraph}\n\n[Question\
+    \ in Korean]  \n{question}\n\n[Choices in Korean]  \n{choices}\n\n[Answer]\n"
+  plus: "This is a Korean CSAT (College Scholastic Ability Test) language question.\
+    \  \nPlease translate the entire content (passage, supplementary material, question,\
+    \ choices) into English, then **write a logical reasoning process in English**\
+    \ and finally present your answer as a single number only.\n\n<Instructions> \
+    \ \n1. Translate the entire content (passage, supplementary material, question,\
+    \ choices) into accurate English.  \n2. Solve the question based on the translated\
+    \ passage and choices in English.  \n3. If a choice only partially matches the\
+    \ passage or overgeneralizes/understates the meaning of the passage, consider\
+    \ it as **not matching**.  \n4. **Write a brief logical reasoning for each choice,\
+    \ based on the passage.**  \n5. After comparing all choices, clearly present your\
+    \ final answer as a **single number from 1 to 5 only**.  \n6. You must choose\
+    \ one answer. **Even if the answer is unclear, pick the most appropriate one.**\
+    \  \n7. At the very end, write the answer in the format: **Answer: [number]**\n\
+    \n[Passage in Korean]  \n{paragraph}\n\n[Supplementary Material in Korean]  \n\
+    {question_plus}\n\n[Question in Korean]  \n{question}\n\n[Choices in Korean] \
+    \ \n{choices}\n\n[Answer]\n"
+  score:
+    gpt-4o-mini: 60
+translate_prompt_v3:
+  description: 번역하여 생각하길 유도하는 프롬프트 v3 입니다.
+  main: |
+    This is a Korean CSAT (College Scholastic Ability Test) reading comprehension question.  
+    Please follow these instructions carefully:
+
+    <Instructions>
+    1. First, translate the entire passage, question, and choices into accurate English.  
+    2. Based on the translated text, evaluate each choice through logical reasoning in English.  
+    3. If a choice only partially matches the passage, or overgeneralizes/understates it, treat it as incorrect.  
+    4. Write a **brief reasoning** for each choice (1~2 lines per choice is enough).  
+    5. At the end, clearly state the final answer in this format: **Answer: [number]**  
+    6. You must choose one answer. Even if uncertain, select the most appropriate choice.
+
+    [Passage in Korean]  
+    {paragraph}
+
+    [Question in Korean]  
+    {question}
+
+    [Choices in Korean]  
+    {choices}
+
+    [Answer]
+  plus: |
+    This is a Korean CSAT (College Scholastic Ability Test) reading comprehension question.  
+    Please follow these instructions carefully:
+
+    <Instructions>
+    1. First, translate the entire passage, Supplementary Material, question, and choices into accurate English.  
+    2. Based on the translated text, evaluate each choice through logical reasoning in English.  
+    3. If a choice only partially matches the passage, or overgeneralizes/understates it, treat it as incorrect.  
+    4. Write a **brief reasoning** for each choice (1~2 lines per choice is enough).  
+    5. At the end, clearly state the final answer in this format: **Answer: [number]**  
+    6. You must choose one answer. Even if uncertain, select the most appropriate choice.
+
+    [Passage in Korean]  
+    {paragraph}
+
+    [Supplementary Material in Korean]
+    {question_plus}
+
+    [Question in Korean]  
+    {question}
+
+    [Choices in Korean]  
+    {choices}
+
+    [Answer]
+one_shot_prompt:
+  description: Chain-of-Thought 기반으로 한가지 예시를 주는 prompt입니다.
+  main: |
+    당신은 한국어 전문가입니다. 그리고 아래는 수능 국어 문제입니다.
+    지문과 질문을 읽고, 스스로 생각한 과정을 간단히 정리한 뒤, 반드시 정답을 숫자 하나로 제시하세요.
+
+    <반드시 다음 지침을 따르세요>
+    1. 각 선택지를 지문의 내용과 정확히 비교하세요.
+    2. 선택지가 지문의 일부 정보만 포함하거나, 분류 또는 개념을 잘못 일반화한 경우에도 ‘일치하지 않음’으로 간주하세요.
+    3. 지문에직접 언급되지 않은 내용은 유추하지 마세요.
+    4. 모든 선택지를 분석한 후, 반드시 마지막 줄에 정답을 **숫자 하나로만** 명확히 제시하세요.
+    5. 정답이 명확하지 않거나 모든 선택지가 지문과 일치할 경우, **정답: 0**으로 답하세요.
+
+    [문제]
+    윗글의 내용과 일치하지 않는 것은?
+
+    [문항]
+    1. 밑줄 긋기는 일반적인 독서 상황에서 도움이 된다.
+    2. 밑줄 이외의 다른 기호를 밑줄 긋기에 사용하는 것이 가능하다.
+    3. 밑줄 긋기는 누구나 연습 없이도 능숙하게 사용할 수 있는 전략이다.
+    4. 밑줄 긋기로 표시한 부분은 독자가 내용을 다시 찾아보는 데 유용하다.
+    5. 밑줄 긋기로 표시한 부분이 독자에게 시각적인 자극을 주어 기억한 내용을 떠올리는 데 도움이 된다.
+
+    [지문]
+    밑줄 긋기는 일상적으로 유용하게 활용할 수 있는 독서 전략이다. 밑줄 긋기는 정보를 머릿속에 저장하고 기억한 내용을 떠올리는 데 도움이 된다. 독자로 하여금 표시한 부분에 주의를 기울이도록 해 정보를 머릿속에 저장하도록 돕고, 표시한 부분이 독자에게 시각적 자극을 주어 기억한 내용을 떠올리는 데 단서가 되기 때문이다. 이러한 점에서 밑줄 긋기는 일반적인 독서 상황뿐 아니라 학습 상황에서도 유용하다. 또한 밑줄 긋기는 방대한 정보들 가운데 주요한 정보를 추리는 데에도 효과적이며, 표시한 부분이 일종의 색인과 같은 역할을 하여 독자가 내용을 다시 찾아보는 데에도 용이하다.
+    통상적으로 독자는 글을 읽는 중에 바로바로 밑줄 긋기를 한다. 그러다 보면 밑줄이 많아지고 복잡해져 밑줄 긋기의 효과가 줄어든다. 또한 밑줄 긋기를 신중하게 하지 않으면 잘못 표시한 밑줄을 삭제하기 위해 되돌아가느라 독서의 흐름이 방해받게 되므로 효과적으로 밑줄 긋기를 하는 것이 중요하다.
+    밑줄 긋기의 효과를 얻기 위한 방법에는 몇 가지가 있다. 우선 글을 읽는 중에는 문장이나 문단에 나타난 정보 간의 상대적 중요도를 결정할 때까지 밑줄 긋기를 잠시 늦추었다가 주요한 정보에 밑줄 긋기를 한다. 이때 주요한 정보는 독서 목적에 따라 달라질 수 있다는 점을 고려한다. 또한 자신만의 밑줄 긋기 표시 체계를 세워 밑줄 이외에 다른 기호도 사용할 수 있다. 밑줄 긋기 표시 체계는 밑줄 긋기가 필요한 부분에 특정 기호를 사용하여 표시하기로 독자가 미리 정해 놓는 것이다. 예를 들면 하나의 기준으로 묶을 수 있는 정보들에 동일한 기호를 붙이거나 순차적인 번호를 붙이기로 하는 것 등이다. 이는 기본적인 밑줄 긋기를 확장한 방식이라 할 수 있다.
+    밑줄 긋기는 어떠한 수준의 독자라도 쉽게 사용할 수 있다는 점 때문에 연습 없이 능숙하게 사용할 수 있다고 오해되어 온 경향이 있다. 그러나 본질적으로 밑줄 긋기는 주요한 정보가 무엇인지에 대한 판단이 선행되어야 한다는 점에서 단순하지 않다. ㉠ 밑줄 긋기의 방법을 이해하고 잘 사용하는 것은 글을 능동적으로 읽어 나가는 데 도움이 될 수 있다.
+
+    [문제]
+    윗글의 내용과 일치하지 않는 것은?
+
+    [문항]
+    1. 밑줄 긋기는 일반적인 독서 상황에서 도움이 된다.
+    2. 밑줄 이외의 다른 기호를 밑줄 긋기에 사용하는 것이 가능하다.
+    3. 밑줄 긋기는 누구나 연습 없이도 능숙하게 사용할 수 있는 전략이다.
+    4. 밑줄 긋기로 표시한 부분은 독자가 내용을 다시 찾아보는 데 유용하다.
+    5. 밑줄 긋기로 표시한 부분이 독자에게 시각적인 자극을 주어 기억한 내용을 떠올리는 데 도움이 된다.
+
+    [생각의 흐름]
+    1. 밑줄 긋기가 일반적인 독서 상황에서도 유용하다고 지문에서 명시되어 있어 일치한다.
+    2. 독자가 자신만의 표시 체계를 만들어 다른 기호도 사용할 수 있다고 하므로 일치한다.
+    3. 지문에서 밑줄 긋기는 연습 없이도 능숙하게 사용할 수 있다고 **오해되고 있다**고 하며, 실제로는 **주요 정보에 대한 판단이 선행되어야 하므로 단순하지 않다**고 설명한다. 따라서 ③은 지문과 **일치하지 않는다**.
+    4. 지문에서 밑줄은 색인 역할을 해 다시 찾아보기 쉽다고 하므로 일치한다.
+    5. 밑줄이 시각적 자극이 되어 기억을 떠올리게 한다고 했으므로 일치한다.
+
+    [정답]
+    3
+
+    당신은 한국어 전문가입니다. 그리고 아래는 수능 국어 문제입니다.
+    지문과 질문을 읽고, 스스로 생각한 과정을 간단히 정리한 뒤, 반드시 정답을 숫자 하나로 제시하세요.
+
+    <반드시 다음 지침을 따르세요>
+    1. 각 선택지를 지문의 내용과 정확히 비교하세요.
+    2. 선택지가 지문의 일부 정보만 포함하거나, 분류 또는 개념을 잘못 일반화한 경우에도 ‘일치하지 않음’으로 간주하세요.
+    3. 지문에직접 언급되지 않은 내용은 유추하지 마세요.
+    4. 모든 선택지를 분석한 후, 반드시 마지막 줄에 정답을 **숫자 하나로만** 명확히 제시하세요.
+    5. 정답이 명확하지 않거나 모든 선택지가 지문과 일치할 경우, **정답: 0**으로 답하세요.
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [지문]
+    {paragraph}
+
+    [문제]
+    {question}
+
+    [문항]
+    {choices}
+
+    [생각의 흐름]
+  plus: "당신은 한국어 전문가입니다. 그리고 아래는 수능 국어 문제입니다.\n지문과 질문을 읽고, 스스로 생각한 과정을 간단히 정리한 뒤,\
+    \ 반드시 정답을 숫자 하나로 제시하세요.\n\n<반드시 다음 지침을 따르세요>\n1. 각 선택지를 지문의 내용과 정확히 비교하세요.\n2.\
+    \ 선택지가 지문의 일부 정보만 포함하거나, 분류 또는 개념을 잘못 일반화한 경우에도 ‘일치하지 않음’으로 간주하세요.\n3. 지문에 직접\
+    \ 언급되지 않은 내용은 유추하지 마세요.\n4. 모든 선택지를 분석한 후, 반드시 마지막 줄에 정답을 **숫자 하나로만** 명확히 제시하세요.\n\
+    5. 정답이 명확하지 않거나 모든 선택지가 지문과 일치할 경우, **정답: 0**으로 답하세요.\n\n[문제]\n<보기>를 참고하여 윗글을\
+    \ 감상한 내용으로 적절하지 않은 것은?\n\n[보기]\n배꼽을 주제로 한 변주곡 은 주인공이 배꼽을 잃어버렸다는 허구적 설정으로 시작하여,\
+    \ 이후 배꼽을 둘러싼 희화적 에피소드 들이 이어진다. 주인공은 으레 있어야 할 것이 없어져 불편한 생활을 이어 가던 중 배꼽에 관심을 갖는\
+    \ 이들이 늘어나고 있음을 알게 된다. 이 과정에서 배꼽에 관련된 개인적 상황은 물론 인간 존재와 사회 상황에 대한 심층적 의미의 탐색이 이루어진다.\n\
+    \n[문항]\n1. ‘의식의 끈’이 ‘건드려’짐으로써 주인공이 비정상적 문제 상황에 지속적으로 주목하게 된 것이겠군.\n2. '회사 출근’을\
+    \ 포기하게 되고 ‘늦잠 버릇’이 사라진 상황은, 주인공의 일상이 변화된 모습을 보여 준다고 할 수 있겠군.\n3. ‘배꼽’을 ‘탯줄’에 연관하여\
+    \ 이해하는 것은, 개인에 관련된 생각을 ‘우주와 만나’는 ‘심오하고 추상적인’ 생각으로 확장하는 실마리가 된다고 할 수 있겠군. \n4.\
+    \ ‘그의 사념’이 도달한 ‘배꼽론’의 ‘확고한 경지’는 사소한 것의 심층적 의미를 탐색할 때 이를 수 있으므로, 그 사소한 것에 얽매이지\
+    \ 않는 자유로운 상태에서 실현이 가능해지겠군.\n5. ‘기묘한 현상’은, ‘배꼽 이야기’가 ‘일반화’되는 상황이 뜻밖이지만 ‘사실’로 나타나는\
+    \ 현상을 두고 일컬은 말이라고 할 수 있겠군.\n\n[지문]\n㉠불편스런 일이 한두 가지가 아니었다. 하지만 허원은 그렇게 스스로 주의하고\
+    \ 고통을 감내해냈기 때문에 자신의 비밀을 남 앞에 감쪽같이 숨겨 나갈 수 있었다. 아무도 그의 비밀을 눈치챈 사람이 없었다. 비밀이 탄로\
+    \ 나지 않는 한 그의 일상 생활은 더 이상 불편을 겪을 필요도 없었다. 인체 생리나 해부학 서적 같은 걸 뒤져 봐도 성인의 배꼽은 거의 아무런\
+    \ 기능도 수행하지 않음을 알 수 있었다. 적어도 그의 외모나 바깥 생활은 정상을 유지할 수 있었다. 그 점만이라도 무척 다행이었다. 그는\
+    \ 일단 안도의 한숨을 내쉬었다. \n㉡ ― 그깟 놈의 배꼽, 안 가지고 있음 어때.\n그쯤 체념을 하고 될 수 있으면 배꼽에 관한 일들을\
+    \ 잊어버리려 했다. ㉢ 자신으로부터 배꼽이 사라져 버린 사실을, 그리고 그 때문에 생긴 모든 불편을 잊고, 그 배꼽 없는 생활에 스스로 \
+    \ 익숙해져 버리기를 바라 마지않았다. 하지만 문제는 그렇게 간단하지 않았다. 아무리 일상생활에선 드러나게 불편한 점이 없다 해도 그는 역시\
+    \ 배꼽이 없는 자신에 대해 좀처럼 익숙해질 수가 없었다. 그는 자꾸만 허전해서 견딜 수가 없어지곤 했다. 있느니라 여기고 지낼 때는 그처럼\
+    \ 무심스럽던 일이 그런 식으로 한번 의식의 끈을 건드려 오자 허원의 상념은 잠시도 그 잃어\n버린 배꼽에서 떠나 있을 수가 없었다.\n그는\
+    \ 마침내 회사 출근마저 단념하기에 이르렀다. 그러자 신통 하게도 늦잠 버릇이 깨끗이 자취를 감춰 버렸다. 그는 눈만 뜨면 사라져 없어진 배꼽\
+    \ 때문에 기분이 허전했고, 그러면 그 허망감을 쫓기 위해 배꼽에 관한 끝없는 상념들을 쌓기 시작했다.\n(중략)\n그리하여 배꼽에 관한 허원의\
+    \ 지식과 사념은 자꾸 더 심오하고 추상적인 것이 되어 갔다. 그에게는 어느덧 그 나름의 독특한 배꼽론 같은 것이 윤곽을 지어 가고 있었다.\
+    \ 하지만 그러면 그럴 수록 허원은 더욱더 허전해지고, 아무 곳에도 발이 닿아 있는 것 같지 않고, 혼자서 외롭게 허공을 둥둥 떠다니고 있는\
+    \ 것처럼 느껴졌다. 그러면 그는 또 거듭 그 허망감을 쫓기 위해 자신의 배꼽론을 완벽하게 발전시켜 나갔다. 마치 그렇게 하여 그는 자신의\
+    \ 사념 속에서 잃어버린 배꼽을 되찾아내고, 그것으로 그 실물을 대신해 어떤 식으로든 자신과 세상 간에 큰 불편이 없도록\n화해시키고 그것으로\
+    \ 그 난감스런 허망감을 채우려는 듯이. 그의 배꼽론은 가령 이런 식으로까지 발전되어 있었다.\n― 우리는 누구나 배꼽을 가지고 있다…… 우리는\
+    \ 우리들의 어머니로부터 탯줄이 끊어지는 순간 이 우주의 한 단자(單子)로서 고독하게 존재하게 되었다. 그러나 우리는 영원히 그 탯줄의 기억을\
+    \ 잊지 않는다. 우리 영혼은 언제까지나 그 어머니의 탯줄과 이어지려 하고, 또다시 그 어머니의 어머니의 탯줄과 이어져 나가면서 우리 존재를\
+    \ 설명하고 근원을 밝혀 나가며, 마침내는 마지막 어머니의 탯줄이 이어지는 우리들의 우주와 만나게 된다…… 우리의 배꼽은 우리가 그 마지막\
+    \ 우주와 만나고자 하는 향수의 표상이며 가능성의 상징이며 존재의 비밀로 나아가는 형이상학이다. 그 비밀의 문이다……\n그는 어느덧 배꼽에\
+    \ 대해 당당한 일가견을 이룬 배꼽 전문가가 되어 가고 있었다.\n㉣ 어느 해 여름이었다. 하니까 그것은 허원이 자신의 배꼽을 잃어버리고 나서\
+    \ 불편하기 그지없는 세 번째의 여름을 맞고 있을 때였다. 그는 물론 배꼽을 잃어버린 자신에 대해 아직도 완전힌 익숙해지질 못하고 있었다.\
+    \ 그의 사념 역시 언제나 그 눈에 보이지 않는 배꼽에 매달려 거기에서밖에는 영영 더 이상 자유로워질 수가 없었다. 그 대신 허원은 이제 그\
+    \ 자신의 배꼽론에 대해선 매우 확고한 경지에 도달해 있었다.\n그럴 즈음이었다. 허원은 문득 세상 사람들이 수상쩍어지기 시작했다. 어느 때부턴지는\
+    \ 확실히 알 수 없었지만, 세상 사람들 역시 무슨 이유에선지 이 인간 장기의 한 조그만 흔적에 대해 심상찮은 관심을 나타내기 시작한 것이다.\
+    \ 배꼽에 대한 사람들의 관심 역시 기왕부터 있어 온 것을 여태까지 서로 모르고 지내오다가 비로소 어떤 기미를 알아차리게 된 것인지, 혹은\
+    \ 사람들로 하여금 그런 관심을 내보이게 할 만한 무슨 우연찮은 계기가 마련되었는지는 확실치가 않았다. 그리고 무엇 때문에 사람들 에게서 그런\
+    \ 관심이 시작되었는지 그 이유를 알 수도 없었다. 하지만 그것은 어쨌든 사실이었다. 주의를 기울여 보니 관심의 정도도 여간이 아니었다. 한두\
+    \ 사람, 한두 곳에서만 나타난 현상이 아니었다. 그것은 이미 일반적인 현상이 되어 가고 있었다. 그리고 그렇듯 배꼽 이야기가 일반화의 기미를\
+    \ 엿보이기 시작하자 사람들은 이제 그걸 신호로 아무 흉허물 없이 터놓고 지껄이거나 신문, 잡지 같은 데서 진지하게 논의의 대상을 삼기도 하였다.\
+    \ ㉤ 배꼽에 관한 논의가 그렇듯 갑자기 시중 일반에까지 성행하기 시작한 것이다. \n기묘한 현상이었다.\n- 이청준, 배꼽을 주제로 한 변주곡\
+    \ -\n\n[문제]\n<보기>를 참고하여 윗글을 감상한 내용으로 적절하지 않은 것은?  \n\n[보기]\n배꼽을 주제로 한 변주곡 은 주인공이\
+    \ 배꼽을 잃어버렸다는 허구적 설정으로 시작하여, 이후 배꼽을 둘러싼 희화적 에피소드 들이 이어진다. 주인공은 으레 있어야 할 것이 없어져\
+    \ 불편한 생활을 이어 가던 중 배꼽에 관심을 갖는 이들이 늘어나고 있음을 알게 된다. 이 과정에서 배꼽에 관련된 개인적 상황은 물론 인간\
+    \ 존재와 사회 상황에 대한 심층적 의미의 탐색이 이루어진다.\n\n[문항]\n1. ‘의식의 끈’이 ‘건드려’짐으로써 주인공이 비정상적 문제\
+    \ 상황에 지속적으로 주목하게 된 것이겠군.\n2. '회사 출근’을 포기하게 되고 ‘늦잠 버릇’이 사라진 상황은, 주인공의 일상이 변화된 모습을\
+    \ 보여 준다고 할 수 있겠군.\n3. ‘배꼽’을 ‘탯줄’에 연관하여 이해하는 것은, 개인에 관련된 생각을 ‘우주와 만나’는 ‘심오하고 추상적인’\
+    \ 생각으로 확장하는 실마리가 된다고 할 수 있겠군. \n4. ‘그의 사념’이 도달한 ‘배꼽론’의 ‘확고한 경지’는 사소한 것의 심층적 의미를\
+    \ 탐색할 때 이를 수 있으므로, 그 사소한 것에 얽매이지 않는 자유로운 상태에서 실현이 가능해지겠군.\n5. ‘기묘한 현상’은, ‘배꼽 이야기’가\
+    \ ‘일반화’되는 상황이 뜻밖이지만 ‘사실’로 나타나는 현상을 두고 일컬은 말이라고 할 수 있겠군.\n\n[생각의 흐름]\n주어진 지문은 배꼽을\
+    \ 잃어버린 허구적 설정을 통해 주인공 허원이 겪는 불편과 심리 변화를 서술하면서, 점차 존재론적 사유와 사회적 보편성에 대한 탐색으로 확장되는\
+    \ 과정을 보여준다. 보기에서는 이러한 흐름을 “희화적 에피소드”와 “인간 존재와 사회 상황에 대한 심층적 의미 탐색”으로 요약하고 있다.\n\
+    \n1번은 지문 속 ‘의식의 끈을 건드려’졌다는 표현을 근거로, 주인공이 배꼽에 지속적으로 집착하게 된 계기를 설명하며 적절하다.  \n2번은\
+    \ 주인공이 회사 출근을 포기하고 늦잠 버릇이 사라졌다는 대목을 통해, 그의 일상이 변화되었음을 드러내므로 타당하다.  \n3번은 배꼽에서\
+    \ 탯줄, 어머니, 우주로 사유가 확장되는 지문 내용을 반영해, 사적인 경험이 형이상학적 사고로 연결되는 과정이라는 점에서 타당하다.  \n\
+    4번은 ‘사소한 것에 얽매이지 않는 자유로운 상태에서 배꼽론이 형성되었다’고 해석하고 있으나, 실제 지문에서는 허원이 배꼽을 잃은 허망함과\
+    \ 불안에 얽매여 끊임없이 사유에 매달린 결과로 배꼽론이 형성되었음을 보여준다. 허원은 그 사유로부터 자유로워진 것이 아니라 오히려 더욱 깊이\
+    \ 빠져든 상태였다. 따라서 ④번은 지문과 맞지 않아 부적절하다.\n5번도 배꼽에 관한 관심이 사회적으로 확산되고 신문·잡지에서 다뤄지는 상황을\
+    \ ‘기묘한 현상’이라 지칭한 점에서 적절하다.\n\n정답은 **4번**이다.\n\n당신은 한국어 전문가입니다. 그리고 아래는 수능 국어 문제입니다.\n\
+    지문과 질문을 읽고, 스스로 생각한 과정을 간단히 정리한 뒤, 반드시 정답을 숫자 하나로 제시하세요.\n\n<반드시 다음 지침을 따르세요>\n\
+    1. 각 선택지를 지문의 내용과 정확히 비교하세요.\n2. 선택지가 지문의 일부 정보만 포함하거나, 분류 또는 개념을 잘못 일반화한 경우에도\
+    \ ‘일치하지 않음’으로 간주하세요.\n3. 지문에 직접 언급되지 않은 내용은 유추하지 마세요.\n4. 모든 선택지를 분석한 후, 반드시 마지막\
+    \ 줄에 정답을 **숫자 하나로만** 명확히 제시하세요.\n5. 정답이 명확하지 않거나 모든 선택지가 지문과 일치할 경우, **정답: 0**으로\
+    \ 답하세요.\n\n[문제]\n{question}\n\n[보기]\n{question_plus}\n\n[문항]\n{choices}\n\n[지문]\n\
+    {paragraph}\n\n[문제]\n{question}\n\n[보기]\n{question_plus}\n\n[문항]\n{choices}\n\n\
+    [생각의 흐름]\n"
+  score:
+    gpt-4o-mini: 42
