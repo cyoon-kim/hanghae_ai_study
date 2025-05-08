@@ -3,6 +3,8 @@
 유튜브 영상의 자막을 활용하여 질문에 대한 정확한 답변을 제공하는 RAG 기반의 QA 웹앱입니다.  
 `LangChain`, `OpenAI`, `ChromaDB`, `Streamlit` 등을 활용하여 영상 내용을 요약하고, 관련 정보를 근거와 함께 제공합니다.   
 
+시연 동영상 : https://github.com/cyoon-kim/hanghae_ai_study/blob/main/week6/advanced/advanced_week6.mp4
+
 ---
 
 ## ✨ 주요 기능
