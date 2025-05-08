@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 from yt_dlp import YoutubeDL
 import json, os, requests, logging
@@ -12,11 +10,9 @@ from langchain.chains import RetrievalQA
 import yaml
 import re
 
-# 로그 설정
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ★ 환경 설정
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
@@ -128,9 +124,6 @@ def generate_summary(chunks):
     logger.info("요약 생성 완료")
     return response
 
-
-
-# ★ 1. 유튜브 링크 입력
 video_url = st.text_input("유튜브 영상 URL을 입력해주세요:")
 
 if video_url:
@@ -206,7 +199,6 @@ if video_url:
                 st.session_state.summary = summary
                 st.session_state.video_id = info["id"]
 
-# ★ 2. 영상 정보 + 질문 UI
 if "vectordb" in st.session_state:
     col1, col2 = st.columns([1, 3])
     with col1:
