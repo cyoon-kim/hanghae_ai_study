@@ -241,6 +241,7 @@ if "vectordb" in st.session_state:
             answer = llm.invoke(prompt)
             answer_text = answer.content.strip()
 
+            logger.info(f"llm_answer: {answer_text}")
             match = re.search(r"출처:\s*(\[(.*?)\])", answer_text)
             source_tag = match.group(1) if match else None
 
