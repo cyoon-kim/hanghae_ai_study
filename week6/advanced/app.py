@@ -118,7 +118,7 @@ def load_prompt(version="v1", prompt_name="qa_prompt", path="prompts.yaml"):
 
 def generate_summary(chunks):
     logger.info("요약 생성 시작")
-    llm = ChatOpenAI(temperature=0.3, model_name="gpt-4o")
+    llm = ChatOpenAI(temperature=0.3, model_name="gpt-4o-mini")
     full_text = "\n".join([chunk["text"] for chunk in chunks])
 
     prompt_template = load_prompt(version="v1", prompt_name="summary_prompt")
