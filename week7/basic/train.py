@@ -26,14 +26,15 @@ from transformers import (
 )
 from transformers.trainer_utils import get_last_checkpoint
 
-# wandb.init(project='week7_basic')
-# wandb.run.name = 'gpt-finetuning'
+wandb.init(project='week7_basic')
+wandb.run.name = 'Gemma-basic-finetuning'
+
+torch.cuda.empty_cache()
 
 # 모델과 데이터셋을 선택한 이유
-# 1. 모델 : gemma-3-1b-pt (https://huggingface.co/google/gemma-3-1b-pt)
-#    - 1.5B 파라미터를 가진 모델로, 적당한 크기와 성능을 가지고 있습니다.
-#    - pre-trained 모델로, fine-tuning을 통해 성능을 향상시킬 수 있습니다.
-#    - task에 맞게 it보다는 pt로 fine-tuning을 진행합니다.
+# 1. 모델 : google/gemma-3-1b-pt (https://huggingface.co/google/gemma-3-1b-pt)
+#    - Google에서 개발한 LLM으로, 1B 파라미터를 가진 모델입니다.
+#    - task에 따라 it보다는 pt계열 모델 사용용
 # 2. 데이터셋 : wikitext-2-raw-v1 (https://huggingface.co/datasets/wikitext)
 #    - 영어 위키피디아의 raw text로 구성되어 있습니다.
 #    - 다양한 주제를 포함하고 있어, 일반적인 언어 모델링에 적합합니다.
@@ -42,39 +43,23 @@ from transformers.trainer_utils import get_last_checkpoint
 @dataclass
 class Arguments:
     model_name_or_path: Optional[str] = field(default="google/gemma-3-1b-pt")  # HuggingFace hub에서 pre-trained 모델로 사용할 모델의 이름
-    torch_dtype: Optional[str] = field(default='float16', metadata={'choices': ['auto', 'bfloat16', 'float16', 'float32']})  # 우리 모델의 precision(data type이라고 이해하시면 됩니다)
+    torch_dtype: Optional[str] = field(default='bfloat16', metadata={'choices': ['auto', 'bfloat16', 'float16', 'float32']})  # 우리 모델의 precision(data type이라고 이해하시면 됩니다)
 
     dataset_name: Optional[str] = field(default="wikitext")  # Fine-tuning으로 사용할 huggingface hub에서의 dataset 이름
     dataset_config_name: Optional[str] = field(default="wikitext-2-raw-v1")  # Fine-tuning으로 사용할 huggingface hub에서의 dataset configuration
-    block_size: int = field(default=1024)  # Fine-tuning에 사용할 input text의 길이
+    block_size: int = field(default=256)  # Fine-tuning에 사용할 input text의 길이
     num_workers: Optional[int] = field(default=2)  # Data를 업로드하거나 전처리할 때 사용할 worker 숫자
     
-parser = HfArgumentParser((Arguments, TrainingArguments))
-args, training_args = parser.parse_args_into_dataclasses()
+parser = HfArgumentParser(Arguments)
+args = parser.parse_args_into_dataclasses()[0]
 
-# logger = logging.getLogger()
+logger = logging.getLogger()
 
-# logging.basicConfig(
-#     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-#     datefmt="%m/%d/%Y %H:%M:%S",
-#     handlers=[logging.StreamHandler(sys.stdout)],
-# )
-
-# if training_args.should_log:
-#     transformers.utils.logging.set_verbosity_info()  # log level을 INFO로 변경 
-
-# log_level = training_args.get_process_log_level()
-
-# # 우리가 가지고 있는 logger와 HuggingFace의 logger의 log level 설정
-# logger.setLevel(log_level)
-# datasets.utils.logging.set_verbosity(log_level)
-# transformers.utils.logging.set_verbosity(log_level)
-
-# # 기타 HuggingFace logger option들을 설정
-# transformers.utils.logging.enable_default_handler()
-# transformers.utils.logging.enable_explicit_format()
-
-# logger.info(f"Training/evaluation parameters {training_args}")
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    datefmt="%m/%d/%Y %H:%M:%S",
+    handlers=[logging.StreamHandler(sys.stdout)],
+)
 
 # 데이터 확인 시 wiki 데이터셋이라 불필요한 특수문자나 기호가 포함되어 있어 이를 제거하기 위해 사용
 def clean_text(example):
@@ -87,23 +72,14 @@ def filter_valid(example):
     text = example["text"].strip()
     return text != "" and not re.match(r"^=+ .+ =+$", text)
 
-data_ratio = 0.02  # 사용할 데이터 비율
-
 raw_datasets = load_dataset(
     args.dataset_name,
     args.dataset_config_name
 )
 
-data_ratio = 0.02
-
 for split in raw_datasets:
     raw_datasets[split] = raw_datasets[split].map(clean_text)
     raw_datasets[split] = raw_datasets[split].filter(filter_valid)
-
-    total = len(raw_datasets[split])
-    n = int(total * data_ratio)
-    raw_datasets[split] = raw_datasets[split].select(range(n))
-    print(f"{split}: {n}개 샘플 사용")
 
 # 모델 설정
 config = AutoConfig.from_pretrained(args.model_name_or_path)
@@ -111,7 +87,8 @@ tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
 model = AutoModelForCausalLM.from_pretrained(
     args.model_name_or_path,
     config=config,
-    torch_dtype=args.torch_dtype
+    torch_dtype=args.torch_dtype,
+    attn_implementation='eager'
 )
 
 # gpt 유형 모델 pad token을 eos token으로 설정
@@ -145,40 +122,55 @@ lm_datasets = tokenized_datasets.map(
     num_proc=args.num_workers,
 )
 
+lm_datasets["train"] = lm_datasets["train"].select(range(100))
+lm_datasets["validation"] = lm_datasets["validation"].select(range(20))
+lm_datasets["test"] = lm_datasets["test"].select(range(20))
+
 print("** Dataset size after tokenization and grouping:")
+print(lm_datasets['train'])
 print(f"train dataset size: {len(lm_datasets['train'])}")
 print(f"validation dataset size: {len(lm_datasets['validation'])}")
 print(f"test dataset size: {len(lm_datasets['test'])}")
+
+training_args = TrainingArguments(
+    output_dir="./gemma-finetuned",
+    overwrite_output_dir=True,
+    per_device_train_batch_size=1,
+    eval_strategy="epoch",
+    save_strategy="no",
+    per_device_eval_batch_size=1,
+    logging_strategy="epoch",
+    num_train_epochs=3,
+    logging_dir="./logs",
+    report_to="wandb"   ,
+    metric_for_best_model="eval_loss",
+    greater_is_better=False,
+    load_best_model_at_end=False,
+    learning_rate=1e-5,
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=lm_datasets["train"],
+    eval_dataset=lm_datasets["validation"],
+    tokenizer=tokenizer,
+    data_collator=default_data_collator
+)
+
+before_results = trainer.evaluate(lm_datasets["test"], metric_key_prefix="init_test")
+print(f"Initial test results: {before_results}")
+
     
-# with training_args.main_process_first(desc="grouping texts together"):
-#     lm_datasets = tokenized_datasets.map(
-#         group_texts,
-#         batched=True,
-#         num_proc=args.num_workers
-#     )
-    
-# train_dataset = lm_datasets["train"]
+train_result = trainer.train()
+print(f"Training completed. Final results: {train_result}")
 
-# trainer = Trainer(
-#     model=model,
-#     args=training_args,
-#     train_dataset=train_dataset,
-#     tokenizer=tokenizer,
-#     data_collator=default_data_collator
-# )
+trainer.save_model()
 
-# checkpoint = None
-# last_checkpoint = get_last_checkpoint(training_args.output_dir)  # 만약 output_dir에 checkpoint가 남아있으면 이를 사용하고, 없으면 None이 return됩니다.
-# if training_args.resume_from_checkpoint is not None:  # output_dir이 아닌 다른 위치에서의 checkpoint를 resume_from_checkpoint로 지정할 수 있습니다.
-#     checkpoint = training_args.resume_from_checkpoint
-# else:  # 아니면 last_checkpoint로 checkpoint를 지정합니다.  
-#     checkpoint = last_checkpoint
-    
-# train_result = trainer.train(resume_from_checkpoint=checkpoint)
+metrics = train_result.metrics
+trainer.log_metrics("train", metrics)
+trainer.save_metrics("train", metrics)
+trainer.save_state()
 
-# trainer.save_model()
-
-# metrics = train_result.metrics
-# trainer.log_metrics("train", metrics)
-# trainer.save_metrics("train", metrics)
-# trainer.save_state()
+after_results = trainer.evaluate(lm_datasets["test"], metric_key_prefix="final_test")
+print(f"Final test results: {after_results}")
