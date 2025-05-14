@@ -114,50 +114,41 @@ model = AutoModelForCausalLM.from_pretrained(
     torch_dtype=args.torch_dtype
 )
 
+# gpt 유형 모델 pad token을 eos token으로 설정
 tokenizer.pad_token_id = tokenizer.eos_token_id
 
-# embedding_size = model.get_input_embeddings().weight.shape[0]
-# if len(tokenizer) > embedding_size:
-#     model.resize_token_embeddings(len(tokenizer))
+def tokenize_function(examples):
+    output = tokenizer(examples['text'])
+    return output
 
-# column_names = list(raw_datasets["train"].features)
-# text_column_name = "text" if "text" in column_names else column_names[0]
+def group_texts(examples):
+    concatenated_examples = {k: list(chain(*examples[k])) for k in examples.keys()}
+    total_length = len(concatenated_examples[list(examples.keys())[0]])
+    total_length = (total_length // args.block_size) * args.block_size
+    result = {
+        k: [t[i : i + args.block_size] for i in range(0, total_length, args.block_size)]
+        for k, t in concatenated_examples.items()
+    }
+    result["labels"] = result["input_ids"].copy()
+    return result
 
-# def tokenize_function(examples):
-#     output = tokenizer(examples[text_column_name])
-#     return output
-    
-# with training_args.main_process_first(desc="dataset map tokenization"):
-#     tokenized_datasets = raw_datasets.map(
-#         tokenize_function,
-#         batched=True,
-#         num_proc=args.num_workers,
-#         remove_columns=column_names
-#     )
+tokenized_datasets = raw_datasets.map(
+    tokenize_function,
+    batched=True,
+    num_proc=args.num_workers,
+    remove_columns=raw_datasets["train"].column_names
+)
 
-# max_pos_embeddings = config.max_position_embeddings if hasattr(config, "max_position_embeddings") else 1024
-# block_size = args.block_size if tokenizer.model_max_length is None else min(args.block_size, tokenizer.model_max_length)
+lm_datasets = tokenized_datasets.map(
+    group_texts,
+    batched=True,
+    num_proc=args.num_workers,
+)
 
-# def group_texts(examples):
-#     # 주어진 text들을 모두 concat 해줍니다. 
-#     # 예를 들어 examples = {'train': [['Hello!'], ['Yes, that is great!']]}이면 결과물은 {'train': ['Hello! Yes, that is great!']}가 됩니다.
-#     concatenated_examples = {k: list(chain(*examples[k])) for k in examples.keys()}
-    
-#     # 전체 길이를 측정합니다.
-#     total_length = len(concatenated_examples[list(examples.keys())[0]])
-#     total_length = (total_length // block_size) * block_size
-    
-#     # block_size로 text를 쪼갭니다.
-#     # 예를 들어 block_size=3일 때 {'train': ['Hello! Yes, that is great!']}는
-#     # {'train': ['Hel', 'lo!', ' Ye', 's, ', 'tha', ...]}가 됩니다. 
-#     result = {
-#         k: [t[i : i + block_size] for i in range(0, total_length, block_size)]
-#         for k, t in concatenated_examples.items()
-#     }
-    
-#     # Next token prediction이니 label은 자기 자신으로 설정합니다.
-#     result["labels"] = result["input_ids"].copy()
-#     return result
+print("** Dataset size after tokenization and grouping:")
+print(f"train dataset size: {len(lm_datasets['train'])}")
+print(f"validation dataset size: {len(lm_datasets['validation'])}")
+print(f"test dataset size: {len(lm_datasets['test'])}")
     
 # with training_args.main_process_first(desc="grouping texts together"):
 #     lm_datasets = tokenized_datasets.map(
