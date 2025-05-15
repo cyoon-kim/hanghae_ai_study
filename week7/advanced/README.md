@@ -55,6 +55,6 @@ KorQuAD 2.0 : https://github.com/korquad/korquad.github.io/blob/master/dataset/K
 link : https://wandb.ai/cyooon-kim-personal/week7_advanced/runs/mg9oswft?nw=nwusercyooonkim   
 * eval/loss   
 ![image](https://github.com/user-attachments/assets/867e36b1-07db-40a7-a190-e69960fc454f)   
-* train/loss
+* train/loss   
 ![image](https://github.com/user-attachments/assets/20840ccb-fd61-47ef-ac8a-3c264ee6dcc8)
 
