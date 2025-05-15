@@ -43,13 +43,18 @@ KorQuAD 2.0 : https://github.com/korquad/korquad.github.io/blob/master/dataset/K
 ---
 
 ### 관련 링크
-* 데이터 생성 :
-* 모델 학습 : 
+* 데이터 생성 : https://github.com/cyoon-kim/hanghae_ai_study/blob/main/week7/advanced/make_data.ipynb   
+* 모델 학습 : https://github.com/cyoon-kim/hanghae_ai_study/blob/main/week7/advanced/train.py   
 * 학습 전/후 데이터   
-- 학습 전 :    
-- 학습 후 :    
+- 학습 전 : https://github.com/cyoon-kim/hanghae_ai_study/blob/main/week7/advanced/init_outputs.json    
+- 학습 후 : https://github.com/cyoon-kim/hanghae_ai_study/blob/main/week7/advanced/after_outputs.json   
 
 ---
 
 ### wandb
+link : https://wandb.ai/cyooon-kim-personal/week7_advanced/runs/mg9oswft?nw=nwusercyooonkim   
+* eval/loss   
+![image](https://github.com/user-attachments/assets/867e36b1-07db-40a7-a190-e69960fc454f)   
+* train/loss
+![image](https://github.com/user-attachments/assets/20840ccb-fd61-47ef-ac8a-3c264ee6dcc8)
 
