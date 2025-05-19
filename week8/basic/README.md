@@ -1,6 +1,6 @@
 ## [8주차] 기본과제 - LoRA rank에 따른 학습 성능 비교해보기
 
-* 학습 코드 :    
+* 학습 코드 : https://github.com/cyoon-kim/hanghae_ai_study/blob/main/week8/basic/basic_week8.ipynb   
 * wandb link : https://wandb.ai/cyooon-kim-personal/lora_rank_experiment/workspace?nw=nwusercyooonkim    
 
 ---
